@@ -1,4 +1,4 @@
-function Input(props) {
+function Input({ ...props }) {
   return (
     <div className="form-control">
       {props.type === 'checkbox' ? (
@@ -7,6 +7,7 @@ function Input(props) {
             type="checkbox"
             checked={props?.checked}
             className="checkbox-accent checkbox  "
+            {...props}
           />
           <span className="label-text pl-4">{props.placeholder}</span>
         </label>
@@ -15,6 +16,7 @@ function Input(props) {
           type={props.type}
           placeholder={props?.placeholder}
           className="input border-gray-700 focus:input-accent"
+          {...props?.value}
         />
       )}
     </div>

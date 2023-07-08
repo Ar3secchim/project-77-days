@@ -1,9 +1,35 @@
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import Input from '../../Components/Inputs'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import ElipseSuperior from '../../assets/SignIn/elipse-superior.png'
 import IlustracaoSignIn from '../../assets/SignIn/ilustratorSingIn.png'
 
+const schemaSiginUserForm = z.object({
+  email: z
+    .string()
+    .nonempty('o email é obrigatório')
+    .email('Formato de email inválido'),
+  password: z
+    .string()
+    .nonempty('A senha é obrigatória')
+    .min(6, 'A senha precisa ter no minimo 6 caractéres'),
+})
+
 function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schemaSiginUserForm),
+  })
+
+  function createUser(data) {
+    console.log(JSON.stringify(data, null, 2))
+  }
+
   return (
     <main className="container">
       <img
@@ -18,19 +44,32 @@ function SignIn() {
           alt="Rapaz em pé parco com camisa branca e calça verde apontando para um gradro branco "
         />
 
-        <form className="mt-4 flex w-full flex-col gap-6">
-          <Input type="text" placeholder="Email" />
+        <form
+          onSubmit={handleSubmit(createUser)}
+          className="mt-4 flex w-full flex-col gap-6"
+        >
+          <input
+            className="input border-gray-700 focus:input-accent"
+            {...register('email')}
+            type="text"
+            placeholder="Email"
+          />
+          {errors.email && <span>{errors.email.message}</span>}
 
-          <Input type="password" placeholder="Senha" />
-        </form>
+          <input
+            className="input border-gray-700 focus:input-accent"
+            type="password"
+            placeholder="Senha"
+            {...register('password')}
+          />
+          {errors.email && <span>{errors.password.message}</span>}
 
-        <Link className="mt-6 text-base text-accent">Esqueceu a senha?</Link>
+          <Link className="mt-6 text-base text-accent">Esqueceu a senha?</Link>
 
-        <Link to={'/home'} className="w-full">
           <button className="btn-primary btn mt-6 w-full" type="submit">
             Entrar
           </button>
-        </Link>
+        </form>
 
         <p className="mt-6 text-sm">
           Não tem uma conta ?
