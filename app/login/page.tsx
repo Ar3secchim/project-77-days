@@ -1,10 +1,12 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import IlustrationElipse from "@/assets/SignIn/elipse-superior.svg";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
 
+import IlustrationSingIn from "@/assets/SignIn/ilustratorSingIn.png";
+import IlustrationElipse from "@/assets/SignIn/elipse-superior.svg";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,23 +17,18 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 const schemaCreateUserForm = z.object({
-  name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
   email: z.string().email("Formato de email inválido"),
   password: z.string().min(6, {
     message: "Username must be at least 6 characters.",
   }),
 });
 
-function Register() {
+function Login() {
   const form = useForm<z.infer<typeof schemaCreateUserForm>>({
     resolver: zodResolver(schemaCreateUserForm),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -43,45 +40,24 @@ function Register() {
 
   return (
     <main className="w-full">
-
-      <Link href="/login" className=" z-10 absolute top-16 left-5 ">
-        <IoArrowBackCircleOutline size={32}/>
-      </Link>
-
       <div className="absolute -left-2">
         <Image src={IlustrationElipse} alt="elipse" />
       </div>
 
       <section className="flex flex-col justify-center h-screen">
-        <h1 className="mb-5 text-3xl font-bold text-center ">
-          Welcome Onboard!
-        </h1>
-        <p className="text-base font-medium text-primary text-center pb-14  ">
-          Let’s help you meet up your task
-        </p>
-
+        <div className="flex items-center flex-col">
+          <h1 className="mb-5 text-2xl font-bold text-center ">Bem vindo</h1>
+          <Image
+            className="m-4"
+            src={IlustrationSingIn}
+            alt="elipse"
+          />
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 pb-8"
           >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      className="h-10  bg-white  border-neutral-300 font-medium   text-neutral-700"
-                      placeholder="nome"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="email"
@@ -118,40 +94,25 @@ function Register() {
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      className="h-10  bg-white border-neutral-300 font-medium  text-neutral-700"
-                      placeholder="confirme sua senha"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </form>
         </Form>
-        <Button className="mt-8" type="submit">
-          Cadastra-se
+        <Link href="/password" className="font-bold text-center text-primary">
+          Esqueceu sua senha?
+        </Link> 
+
+        <Button className="mt-10" type="submit">
+          Login
         </Button>
+
         <Link
-          href="/login"
           className="p-6 font-bold text-center text-neutral-600"
+          href="/register"
         >
-          Você já tem uma conta?
-          <span className="text-primary"> Login</span>
+          Você ainda não é cadastrado? <span className="text-primary">Cadastre-se</span>
         </Link>
       </section>
     </main>
   );
 }
 
-export default Register;
+export default Login;

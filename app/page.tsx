@@ -20,7 +20,7 @@ export default function Home() {
           <h1 className="font-bold text-xl text-center pb-4">
             Faça as coisas com ToDo
           </h1>
-          <p className="text-base text-justify">
+          <p className="text-base font-bold text-neutral-700 text-justify">
             Lorem ipsum dolor sit amet, consectetur adipisicing. Maxime,
             tempore! Animi nemo aut atque, deleniti nihil dolorem repellendus.
           </p>
